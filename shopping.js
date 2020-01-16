@@ -1,4 +1,4 @@
-'use strict;'
+//'use strict';
 function calculateShip(){
     var orderInfo = 
     { 
@@ -51,8 +51,7 @@ let numberOfItems = +prompt("Please input number of items you want to order: ", 
 for (let i = 0; i<numberOfItems; i++) {
     let a = prompt("Please input name of the item", '');
     let b = +prompt("How much it will cost you w/o shipping?", '');
-    if ( typeof(a) === "string" && typeof(a) != null 
-         && a !='' && b !='' && a.length < 50 && typeof(b) != null && isNaN(b) != true) {
+    if ( typeof(a) === "string" && typeof(a) != null && a !='' && b !='' && a.length < 50 && typeof(b) != null && isNaN(b) != true) {
         console.log("Item recorded to " + a + " and it will cost you " + b + " and it is " + (i+1) + " of " + numberOfItems + " total");
         console.log(typeof(b));
         if (currencyInfo.isEur == false) {
