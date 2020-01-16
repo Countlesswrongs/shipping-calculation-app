@@ -16,11 +16,13 @@ function calculateShip(){
         originCurr : 0,
         EUR : 0,
         RUR : 0,
-        exchangerate : (64)
+        exchangerate : (64.2)
     };
     var newCurrency;
 
 currencyInfo.isEur = confirm('Will you input prices in EUR?');
+//currencyInfo.isRur = confirm('Will you input prices in RUR?');
+
 console.log('The prices will be in EUR: ' + currencyInfo.isEur);
 
 function exchancecurrency (){
@@ -31,7 +33,7 @@ function exchancecurrency (){
         currencyInfo.RUR = originCurr;
         currencyInfo.EUR = currencyInfo.RUR/currencyInfo.exchangerate;
         console.log(currencyInfo.RUR + " rubles is " + currencyInfo.EUR + " at exchange rate 1 RUR = " + currencyInfo.exchangerate + " EUR");
-        newCurrency = currencyInfo.EUR;
+        newCurrency = +(currencyInfo.EUR.toFixed(2));
     }
     //    currencyInfo.isEur=true;
     }
@@ -99,12 +101,12 @@ console.log('The tax will be ' + orderInfo.tax + ' and the total price of shipme
 
 } else { // tax limit no exceeded
     orderInfo.tax = 0;
-    let finalprice = orderInfo.sum+orderInfo.shippingPrice;
+    let finalprice = (orderInfo.sum+orderInfo.shippingPrice).toFixed(2);
     console.log(typeof(finalprice));
     console.log(typeof(currencyInfo.exchangerate));
 
 
-    alert ('Total price of the items is ' + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + ". Please send this much money to us: " + finalprice + " EUR (" + (finalprice*currencyInfo.exchangerate) + " RUR"  + ")");
+    alert ('Total price of the items is ' + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + ". Please send this much money to us: " + finalprice + " EUR (" + ((finalprice*currencyInfo.exchangerate).toFixed(2)) + " RUR"  + ")");
 }
 
 if ((2*orderInfo.shippingPrice > orderInfo.tax) && (orderInfo.tax != 0)) {
