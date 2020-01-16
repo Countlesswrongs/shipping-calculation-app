@@ -21,8 +21,15 @@ function calculateShip(){
     var newCurrency;
 
 currencyInfo.isEur = confirm('Will you input prices in EUR?');
+if (currencyInfo.isEur) {
+// do nothing
+}
+else {
 //currencyInfo.isRur = confirm('Will you input prices in RUR?');
+currencyInfo.exchangerate = +prompt("What is the current exchange rate? 1 EUR = ", '64.2');
 
+}
+console.log(" Current exchage rate is: " + currencyInfo.exchangerate);
 console.log('The prices will be in EUR: ' + currencyInfo.isEur);
 
 function exchancecurrency (){
@@ -64,7 +71,7 @@ for (let i = 0; i<numberOfItems; i++) {
     }
   }
 // проверим, попадаем ли мы на бесплатную доставку
-let freeShippingPrice = prompt ("What is minimum total to qualify for a free shipping?");
+let freeShippingPrice = prompt ("What is minimum total to qualify for a free shipping?", '');
         if (currencyInfo.isEur == false) {
          originCurr = freeShippingPrice;
          exchancecurrency(); // новое
@@ -72,7 +79,7 @@ let freeShippingPrice = prompt ("What is minimum total to qualify for a free shi
         } else {}
 console.log("Free shipping begins at " + freeShippingPrice);
 if (orderInfo.sum < freeShippingPrice) { 
-    orderInfo.shippingPrice = +prompt("How much is the shipping price?");
+    orderInfo.shippingPrice = +prompt("How much is the shipping price?", '');
         if (currencyInfo.isEur == false) {
          originCurr = orderInfo.shippingPrice;
          exchancecurrency(); // новое
