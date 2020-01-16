@@ -93,11 +93,18 @@ if (orderInfo.sum < freeShippingPrice) {
 console.log("freeshipping status: " + orderInfo.freeship);
 if ( orderInfo.sum > 200 ) { // tax limit exceeded
 orderInfo.tax = orderInfo.sum*15/100;
-console.log(typeof(orderInfo.sum));
-console.log(typeof(orderInfo.tax));
-console.log(typeof(orderInfo.shippingPrice));
+// console.log(typeof(orderInfo.sum));
+// console.log(typeof(orderInfo.tax));
+// console.log(typeof(orderInfo.shippingPrice));
 
 console.log('The tax will be ' + orderInfo.tax + ' and the total price of shipment is ' + (orderInfo.sum+orderInfo.tax+orderInfo.shippingPrice));
+
+let finalprice = (orderInfo.sum+orderInfo.shippingPrice+orderInfo.tax).toFixed(2);
+    console.log(typeof(finalprice));
+    console.log(typeof(currencyInfo.exchangerate));
+
+
+    alert ('Total price of the items is ' + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + ". Tax is " + (orderInfo.tax.toFixed(2)) + ". Please send this much money to us: " + finalprice + " EUR (" + ((finalprice*currencyInfo.exchangerate).toFixed(2)) + " RUR"  + ")");
 // if (orderInfo.tax > orderInfo.shippingPrice) {
 // //    alert("Tax will cost you more than shipping. Maybe you should buy these items in two different packages? Your total is " + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + " and tax is " + orderInfo.tax + " Total order will be " + (orderInfo.sum+orderInfo.shippingPrice+orderInfo.tax));
 //     console.log("Tax will cost you more than shipping. Maybe you should buy these items in two different packages? Your total is " + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + " and tax is " + orderInfo.tax + " Total order will be " + (orderInfo.sum+orderInfo.shippingPrice+orderInfo.tax))
