@@ -9,6 +9,34 @@ function calculateShip(){
         shippingPrice : 0,
         tax : 0
     };
+    var currencyInfo =
+    {
+        isEur : false,
+        isRur : true,
+        originCurr : 0,
+        EUR : 0,
+        RUR : 0,
+        exchangerate : (64)
+    };
+    var newCurrency;
+
+currencyInfo.isEur = confirm('Will you input prices in EUR?');
+console.log('The prices will be in EUR: ' + currencyInfo.isEur);
+
+function exchancecurrency (){
+    if (currencyInfo.isEur) {
+// do nothing
+    } else {
+        if (currencyInfo.isRur) {
+        currencyInfo.RUR = originCurr;
+        currencyInfo.EUR = currencyInfo.RUR/currencyInfo.exchangerate;
+        console.log(currencyInfo.RUR + " rubles is " + currencyInfo.EUR + " at exchange rate 1 RUR = " + currencyInfo.exchangerate + " EUR");
+        newCurrency = currencyInfo.EUR;
+    }
+    //    currencyInfo.isEur=true;
+    }
+}
+
 let numberOfItems = +prompt("Please input number of items you want to order: ", '');
 
 for (let i = 0; i<numberOfItems; i++) {
@@ -18,9 +46,15 @@ for (let i = 0; i<numberOfItems; i++) {
          && a !='' && b !='' && a.length < 50 && typeof(b) != null && isNaN(b) != true) {
         console.log("Item recorded to " + a + " and it will cost you " + b + " and it is " + (i+1) + " of " + numberOfItems + " total");
         console.log(typeof(b));
-        orderInfo.itemCost[a] = b;
+        if (currencyInfo.isEur == false) {
+         originCurr = b;
+         exchancecurrency(); // новое
+         b = newCurrency;
+        } else {}
+        orderInfo.itemCost[a] = newCurrency;
         orderInfo.sum = orderInfo.sum + b;
         console.log('current sum is ' + orderInfo.sum);
+        
     }
     else {
         i--;
@@ -29,9 +63,19 @@ for (let i = 0; i<numberOfItems; i++) {
   }
 // проверим, попадаем ли мы на бесплатную доставку
 let freeShippingPrice = prompt ("What is minimum total to qualify for a free shipping?");
+        if (currencyInfo.isEur == false) {
+         originCurr = freeShippingPrice;
+         exchancecurrency(); // новое
+         freeShippingPrice = newCurrency;
+        } else {}
 console.log("Free shipping begins at " + freeShippingPrice);
 if (orderInfo.sum < freeShippingPrice) { 
     orderInfo.shippingPrice = +prompt("How much is the shipping price?");
+        if (currencyInfo.isEur == false) {
+         originCurr = orderInfo.shippingPrice;
+         exchancecurrency(); // новое
+         orderInfo.shippingPrice = newCurrency;   
+        } else {} 
         
 } else { 
      orderInfo.freeship = true;
@@ -41,20 +85,30 @@ if (orderInfo.sum < freeShippingPrice) {
 console.log("freeshipping status: " + orderInfo.freeship);
 if ( orderInfo.sum > 200 ) { // tax limit exceeded
 orderInfo.tax = orderInfo.sum*15/100;
-console.log('The tax will be ' + orderInfo.tax + ' and the total price of shipment is ' + (orderInfo.sum+orderInfo.tax+orderInfo.shippingPrice));
-if (orderInfo.tax > orderInfo.shippingPrice) {
-    alert(" Tax will cost you more than shipping. Maybe you should buy these items in two different packages? Your total is " + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + " and tax is " + orderInfo.tax + " Total order will be " + (orderInfo.sum+orderInfo.shippingPrice+orderInfo.tax));
-} else {
+console.log(typeof(orderInfo.sum));
+console.log(typeof(orderInfo.tax));
+console.log(typeof(orderInfo.shippingPrice));
 
-}
+console.log('The tax will be ' + orderInfo.tax + ' and the total price of shipment is ' + (orderInfo.sum+orderInfo.tax+orderInfo.shippingPrice));
+// if (orderInfo.tax > orderInfo.shippingPrice) {
+// //    alert("Tax will cost you more than shipping. Maybe you should buy these items in two different packages? Your total is " + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + " and tax is " + orderInfo.tax + " Total order will be " + (orderInfo.sum+orderInfo.shippingPrice+orderInfo.tax));
+//     console.log("Tax will cost you more than shipping. Maybe you should buy these items in two different packages? Your total is " + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + " and tax is " + orderInfo.tax + " Total order will be " + (orderInfo.sum+orderInfo.shippingPrice+orderInfo.tax))
+// } else {
+//     console.log('Shipping in two different orders makes no sense');
+// }
 
 } else { // tax limit no exceeded
     orderInfo.tax = 0;
-    alert ('Good to go! Total price of the items is ' + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + ". Please send this much money to us: " + (orderInfo.sum+orderInfo.shippingPrice));
+    let finalprice = orderInfo.sum+orderInfo.shippingPrice;
+    console.log(typeof(finalprice));
+    console.log(typeof(currencyInfo.exchangerate));
+
+
+    alert ('Total price of the items is ' + orderInfo.sum + " and shipping is " + orderInfo.shippingPrice + ". Please send this much money to us: " + finalprice + " EUR (" + (finalprice*currencyInfo.exchangerate) + " RUR"  + ")");
 }
 
-if (2*orderInfo.shippingPrice > orderInfo.sum*15/100) {
-    console.log("You better ship those items in two different orders because tow shipping prices are better than one tax price");
+if ((2*orderInfo.shippingPrice > orderInfo.tax) && (orderInfo.tax != 0)) {
+    console.log("You better ship those items in two different orders because two shipping prices (" + (2*orderInfo.shippingPrice) + ") are better than one tax price (" + orderInfo.tax + ")");
 } 
 
 // In the next iteration i would like to add sorting algorythm to sort 
@@ -65,5 +119,6 @@ if (2*orderInfo.shippingPrice > orderInfo.sum*15/100) {
 // 3. sorting algorythm
 // 4. calculate best shipping option
 // 5. auto-parse shipping
+// 6. add option to translate output messages to Russian (and other language support)
 
 }
