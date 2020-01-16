@@ -45,7 +45,7 @@ function exchancecurrency (){
     //    currencyInfo.isEur=true;
     }
 }
-
+ 
 let numberOfItems = +prompt("Please input number of items you want to order: ", '');
 
 for (let i = 0; i<numberOfItems; i++) {
