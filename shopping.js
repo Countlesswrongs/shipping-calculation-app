@@ -1,6 +1,9 @@
 //'use strict';
 function calculateShip(){
     var freeshipmessage;
+    var shippingTotalPrice = 0;
+    var shipmentPrice = 0;
+
     var orderInfo = 
     { 
         ItemName : {},
@@ -9,9 +12,21 @@ function calculateShip(){
         freeship : false,
         itemCost : {},
         shippingPrice : 0,
+        sum: 0,
         tax : 0
     };
     var orderInfoSorted = 
+    { 
+        ItemName : {},
+        itemNumber : {},
+        itemPrice : {},
+        sum : 0,
+        freeship : false,
+        itemCost : {},
+        shippingPrice : 0,
+        tax : 0
+    };
+    var orderInfoShipment = 
     { 
         ItemName : {},
         itemNumber : {},
@@ -39,7 +54,7 @@ function calculateShip(){
 
 currencyInfo.isEur = confirm('Will you input prices in EUR?');
 if (currencyInfo.isEur) {
-currencyInfo.currentCurrency = ' EUR';
+currencyInfo.currentCurrency = ' RUR';
 } else if (currencyInfo.isRur){
 //currencyInfo.isRur = confirm('Will you input prices in RUR?');
 currencyInfo.currentCurrency = ' RUR';
@@ -88,6 +103,7 @@ for (let i = 0; i<numberOfItems; i++) {
         } else {
             // do nothing
         }   // everything is in EUR 
+        console.log('current sum is ' + orderInfo.sum);
         orderInfo.itemCost[a] = b;
          orderInfo.itemPrice[i]= b;     // price of the item number [i]
          orderInfo.itemNumber[i] = i;   // number of the item number [i] yeah right
@@ -109,6 +125,45 @@ for (let i = 0; i<numberOfItems; i++) {
 orderInfoSorted = orderInfo;
 
 
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// creating packages
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// function createShipment(){
+//     for (let i = numberOfItems; i>=0; i--) {
+//         orderInfoSorted[i]
+//     }        
+// }
+
+function createShipment(){
+    alert('orderInfoSorted.itemPrice[numberOfItems-1] ' + orderInfoSorted.itemPrice[numberOfItems-1]);
+    shipmentPrice = orderInfoSorted.itemPrice[numberOfItems-1];    
+    for (let i = 0; i<(numberOfItems-1); i++) {
+        if (shipmentPrice > 200) { alert("ENDING i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
+        alert("i " + i);
+        alert("numberOfItems " + numberOfItems);
+        alert("shippingTotalPrice " + shippingTotalPrice);
+             
+        shippingTotalPrice = shipmentPrice; 
+        shipmentPrice = shipmentPrice + orderInfoSorted.itemPrice[i];
+        alert('shipmentPrice ' + shipmentPrice);
+        alert("i " + i);
+        if (shipmentPrice > 200) { alert("ENDING i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
+        } 
+alert("Shipping calculation stopped because next step was: " + shipmentPrice);       
+
+
+
+}
+    
 
 
 
@@ -207,4 +262,5 @@ if ((2*orderInfo.shippingPrice < orderInfo.tax) && (orderInfo.tax != 0) && (orde
 console.log("_________________________________________________");
 console.log(orderInfoSorted);
 
+createShipment();
 }
