@@ -153,17 +153,19 @@ function createShipment(){
     orderInfoShipment.itemPrice[0]=orderInfoSorted.itemPrice[numberOfItems-1];
     shipmentPrice = orderInfoSorted.itemPrice[numberOfItems-1];    
     for (let i = 0; i<(numberOfItems-1); i++) {
-        if (shipmentPrice > 200) { alert("ENDING i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
+        if (shipmentPrice > 200) { alert("ENDING HERE i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
         alert("i " + i);
         alert("numberOfItems " + numberOfItems);
         alert("shippingTotalPrice " + shippingTotalPrice);
-        orderInfoShipment.ItemName[i+1]=orderInfoSorted.ItemName[i];
-        orderInfoShipment.itemPrice[i+1]=orderInfoSorted.itemPrice[i];     
+    //    orderInfoShipment.ItemName[i+1]=orderInfoSorted.ItemName[i];
+    //    orderInfoShipment.itemPrice[i+1]=orderInfoSorted.itemPrice[i];     
         shippingTotalPrice = shipmentPrice; 
         shipmentPrice = shipmentPrice + orderInfoSorted.itemPrice[i];
         alert('shipmentPrice ' + shipmentPrice);
         alert("i " + i);
         if (shipmentPrice > 200) { alert("ENDING i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
+        orderInfoShipment.ItemName[i+1]=orderInfoSorted.ItemName[i];
+        orderInfoShipment.itemPrice[i+1]=orderInfoSorted.itemPrice[i];     
         } 
 
 alert("Shipping calculation stopped because next step was: " + shipmentPrice);       
