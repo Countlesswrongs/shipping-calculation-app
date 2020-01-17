@@ -65,10 +65,10 @@ currencyInfo.exchangerate = +prompt("What is the current exchange rate for EUR->
 }
 console.log("Current exchage rate is: " + currencyInfo.exchangerate);
 // console.log('The prices will be in EUR: ' + currencyInfo.isEur);
-console.log('The prices will be in:' + currencyInfo.currentCurrency);
+if (currencyInfo.isEur) { console.log('The prices will be in: EUR'); } else {console.log('The prices will be in:' + currencyInfo.currentCurrency);}
 
 
-function exchancecurrency (){ // add USD support
+function exchancecurrency (){ // 
     if (currencyInfo.isEur) {
 // do nothing
     } else if (currencyInfo.isRur) {
@@ -90,7 +90,7 @@ function exchancecurrency (){ // add USD support
 let numberOfItems = +prompt("Please input number of items you want to order: ", '');
 
 for (let i = 0; i<numberOfItems; i++) {
-    let a = prompt("Please input name of the item", '');
+    let a = prompt("Please input name of the item", 'Jeans');
     let b = +prompt("How much it will cost you w/o shipping?", '');
     if ( typeof(a) === "string" && typeof(a) != null && a !='' && b !='' && a.length < 50 && typeof(b) != null && isNaN(b) != true) {
         
@@ -142,36 +142,36 @@ orderInfoSorted = orderInfo;
 //         orderInfoSorted[i]
 //     }        
 // }
+// this function takes the item with the biggest price (after sorting min->max the biggest is the last) 
+// and adds it to cheapest (first) it goes on until the optimum shipment (that does not break tax limit)
+// is found. Then it records the price. THat's it for now but more is yet to come
+// !!!!!!!!!Currently in wrong working condition!!!!!!!!!
 
 function createShipment(){
     alert('orderInfoSorted.itemPrice[numberOfItems-1] ' + orderInfoSorted.itemPrice[numberOfItems-1]);
+    orderInfoShipment.ItemName[numberOfItems-1]=orderInfoSorted.ItemName[0];
+    orderInfoShipment.itemPrice[numberOfItems-1]=orderInfoSorted.itemPrice[0];
     shipmentPrice = orderInfoSorted.itemPrice[numberOfItems-1];    
     for (let i = 0; i<(numberOfItems-1); i++) {
         if (shipmentPrice > 200) { alert("ENDING i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
         alert("i " + i);
         alert("numberOfItems " + numberOfItems);
         alert("shippingTotalPrice " + shippingTotalPrice);
-             
+        orderInfoShipment.ItemName[i+1]=orderInfoSorted.ItemName[i];
+        orderInfoShipment.itemPrice[i+1]=orderInfoSorted.itemPrice[i];     
         shippingTotalPrice = shipmentPrice; 
         shipmentPrice = shipmentPrice + orderInfoSorted.itemPrice[i];
         alert('shipmentPrice ' + shipmentPrice);
         alert("i " + i);
         if (shipmentPrice > 200) { alert("ENDING i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
         } 
+
 alert("Shipping calculation stopped because next step was: " + shipmentPrice);       
-
-
+console.log('');
+console.log(orderInfoShipment);
 
 }
     
-
-
-
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // is there a free shipping option?
@@ -207,7 +207,7 @@ if (orderInfo.sum < freeShippingPrice) {
 
 console.log("freeshipping status: " + orderInfo.freeship);
 if ( orderInfo.sum > 200 ) { // tax limit exceeded
-orderInfo.tax = orderInfo.sum*15/100;
+orderInfo.tax = (orderInfo.sum-200)*15/100;
 // console.log(typeof(orderInfo.sum));
 // console.log(typeof(orderInfo.tax));
 // console.log(typeof(orderInfo.shippingPrice));
@@ -258,6 +258,14 @@ if ((2*orderInfo.shippingPrice < orderInfo.tax) && (orderInfo.tax != 0) && (orde
 // 4. calculate best shipping option
 // 5. auto-parse shipping
 // 6. add option to translate output messages to Russian (and other language support)
+// 
+//
+//
+//
+//
+//
+// known bugs:
+// 1. wrong tax
 
 console.log("_________________________________________________");
 console.log(orderInfoSorted);
