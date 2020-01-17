@@ -145,12 +145,12 @@ orderInfoSorted = orderInfo;
 // this function takes the item with the biggest price (after sorting min->max the biggest is the last) 
 // and adds it to cheapest (first) it goes on until the optimum shipment (that does not break tax limit)
 // is found. Then it records the price. THat's it for now but more is yet to come
-// !!!!!!!!!Currently in wrong working condition!!!!!!!!!
+// !!!!!!!!! Currently not correctly working !!!!!!!!!
 
 function createShipment(){
     alert('orderInfoSorted.itemPrice[numberOfItems-1] ' + orderInfoSorted.itemPrice[numberOfItems-1]);
-    orderInfoShipment.ItemName[numberOfItems-1]=orderInfoSorted.ItemName[0];
-    orderInfoShipment.itemPrice[numberOfItems-1]=orderInfoSorted.itemPrice[0];
+    orderInfoShipment.ItemName[0]=orderInfoSorted.ItemName[numberOfItems-1];
+    orderInfoShipment.itemPrice[0]=orderInfoSorted.itemPrice[numberOfItems-1];
     shipmentPrice = orderInfoSorted.itemPrice[numberOfItems-1];    
     for (let i = 0; i<(numberOfItems-1); i++) {
         if (shipmentPrice > 200) { alert("ENDING i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
@@ -265,7 +265,7 @@ if ((2*orderInfo.shippingPrice < orderInfo.tax) && (orderInfo.tax != 0) && (orde
 //
 //
 // known bugs:
-// 1. wrong tax
+// 1. createShpiment not working correctly
 
 console.log("_________________________________________________");
 console.log(orderInfoSorted);
