@@ -72,6 +72,11 @@ for (let i = 0; i<numberOfItems; i++) {
   }
 // проверим, попадаем ли мы на бесплатную доставку
 let freeShippingPrice = prompt ("What is minimum total to qualify for a free shipping?", '');
+
+if (freeShippingPrice == null) { freeShippingPrice = Infinity;
+    console.log('freeShippingPrice ' + freeShippingPrice);// no free shipping available
+} else {}
+
         if (currencyInfo.isEur == false) {
          originCurr = freeShippingPrice; // конвертируем валюту
          exchancecurrency(); 
@@ -90,6 +95,7 @@ if (orderInfo.sum < freeShippingPrice) {
      orderInfo.freeship = true;
     orderInfo.shippingPrice = 0;
 }
+
 
 console.log("freeshipping status: " + orderInfo.freeship);
 if ( orderInfo.sum > 200 ) { // tax limit exceeded
