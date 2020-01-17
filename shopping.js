@@ -53,10 +53,19 @@ function calculateShip(){
     var newCurrency;
 
 currencyInfo.isEur = confirm('Will you input prices in EUR?');
+
+if (currencyInfo.isEur) {} else {
+    currencyInfo.isRur = confirm('Will you input prices in RUR?');
+if (currencyInfo.isRur) {} else {
+    currencyInfo.isUsd = confirm('Will you input prices in USD?');
+}
+}
+console.log ("currencyInfo.isEur: " + currencyInfo.isEur);
+console.log ("currencyInfo.isUsd: " + currencyInfo.isUsd);
+console.log ("currencyInfo.isRur: " + currencyInfo.isRur);
 if (currencyInfo.isEur) {
-currencyInfo.currentCurrency = ' RUR';
+currencyInfo.currentCurrency = ' RUR'; //this is not a mistake, it is used to display origin currency
 } else if (currencyInfo.isRur){
-//currencyInfo.isRur = confirm('Will you input prices in RUR?');
 currencyInfo.currentCurrency = ' RUR';
 currencyInfo.exchangerate = +prompt("What is the current exchange rate for EUR->RUR? 1 EUR = ", '68.2');
 } else if (currencyInfo.isUsd) {
@@ -250,6 +259,10 @@ console.log('number of items is ' + numberOfItems);
 if ((2*orderInfo.shippingPrice < orderInfo.tax) && (orderInfo.tax != 0) && (orderInfo.shippingPrice != 0) && (numberOfItems > 1)) { //wtf was that? It said ship price > tax here?
     console.log("If possible ship those items in two different orders because two shipping prices (" + (2*orderInfo.shippingPrice) + ") are better than one tax price (" + orderInfo.tax + ")");
 } 
+console.log("_________________________________________________");
+console.log(orderInfoSorted);
+createShipment();
+}
 
 // In the next iteration i would like to add sorting algorythm to sort 
 // the items by price and to calculate best options for shipping
@@ -260,17 +273,11 @@ if ((2*orderInfo.shippingPrice < orderInfo.tax) && (orderInfo.tax != 0) && (orde
 // 4. calculate best shipping option
 // 5. auto-parse shipping
 // 6. add option to translate output messages to Russian (and other language support)
-// 
-//
-//
-//
-//
-//
 // known bugs:
 // 1. createShpiment not working correctly
-
-console.log("_________________________________________________");
-console.log(orderInfoSorted);
-
-createShipment();
-}
+// 2. bad idea to mark code lines in git-notes cause you know you literally write more and more code and those lines get messed up
+//
+//
+//
+//
+//
