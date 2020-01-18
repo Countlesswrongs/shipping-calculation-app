@@ -3,8 +3,14 @@ function calculateShip(){
     var freeshipmessage;
     var shippingTotalPrice = 0;
     var shipmentPrice = 0;
+    var nextCyclei = 0;
+    var nextCycleNumberOfItems = 0;
+    var orderInfoShipmentDBcounter = 0;
+    var m = 0;
+    var z = 0;
 
-    var orderInfo = 
+
+    var orderInfo =     // starting info
     { 
         ItemName : {},
         itemNumber : {},
@@ -15,7 +21,7 @@ function calculateShip(){
         sum: 0,
         tax : 0
     };
-    var orderInfoSorted = 
+    var orderInfoSorted =    //sorted by price
     { 
         ItemName : {},
         itemNumber : {},
@@ -26,7 +32,31 @@ function calculateShip(){
         shippingPrice : 0,
         tax : 0
     };
-    var orderInfoShipment = 
+    var orderInfoShipment =     // temp for cycle of creatingShipment
+    { 
+        ItemName : {},
+        itemNumber : {},
+        itemPrice : {},
+        sum : 0,
+        freeship : false,
+        itemCost : {},
+        shippingPrice : 0,
+        tax : 0
+    };
+
+    var orderInfoShipmentReady =  // final order object ready
+    { 
+        ItemName : {},
+        itemNumber : {},
+        itemPrice : {},
+        sum : 0,
+        freeship : false,
+        itemCost : {},
+        shippingPrice : 0,
+        tax : 0
+    };
+
+    var orderInfoShipmentZero =  // to clear the order object
     { 
         ItemName : {},
         itemNumber : {},
@@ -155,32 +185,73 @@ orderInfoSorted = orderInfo;
 // and adds it to cheapest (first) it goes on until the optimum shipment (that does not break tax limit)
 // is found. Then it records the price. THat's it for now but more is yet to come
 // !!!!!!!!! Currently not correctly working !!!!!!!!!
-
+nextCycleNumberOfItems = (numberOfItems); 
+alert ("nextCycleNumberOfItems is: " + nextCycleNumberOfItems);
 function createShipment(){
-    alert('orderInfoSorted.itemPrice[numberOfItems-1] ' + orderInfoSorted.itemPrice[numberOfItems-1]);
-    orderInfoShipment.ItemName[0]=orderInfoSorted.ItemName[numberOfItems-1];
-    orderInfoShipment.itemPrice[0]=orderInfoSorted.itemPrice[numberOfItems-1];
-    shipmentPrice = orderInfoSorted.itemPrice[numberOfItems-1];    
-    for (let i = 0; i<(numberOfItems-1); i++) {
-        if (shipmentPrice > 200) { alert("ENDING HERE i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
-        alert("i " + i);
-        alert("numberOfItems " + numberOfItems);
+    console.log('beggining of createShipment');
+    alert('beggining of createShipment');
+    while (((nextCycleNumberOfItems-1) != nextCyclei) || ((nextCycleNumberOfItems-1) > nextCyclei)){
+    alert('The most expensive item is: ' + orderInfoSorted.itemPrice[nextCycleNumberOfItems-1]);
+    orderInfoShipment.ItemName[0]=orderInfoSorted.ItemName[nextCycleNumberOfItems-1];    // name copy
+    orderInfoShipment.itemPrice[0]=orderInfoSorted.itemPrice[nextCycleNumberOfItems-1];  // price copy
+    shipmentPrice = orderInfoSorted.itemPrice[nextCycleNumberOfItems-1];  // counting in the most expensive item price 
+ /////////  
+    for (let i = nextCyclei; i<(nextCycleNumberOfItems-1); i++) {
+    //    if (shipmentPrice > 200) { alert("ENDING in the beggining of cycle i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
+        alert("i: " + i);
+//        alert("record next on i: " + (i+nextCyclei));
+        alert("numberOfItems " + nextCycleNumberOfItems);
         alert("shippingTotalPrice " + shippingTotalPrice);
     //    orderInfoShipment.ItemName[i+1]=orderInfoSorted.ItemName[i];
     //    orderInfoShipment.itemPrice[i+1]=orderInfoSorted.itemPrice[i];     
         shippingTotalPrice = shipmentPrice; 
         shipmentPrice = shipmentPrice + orderInfoSorted.itemPrice[i];
         alert('shipmentPrice ' + shipmentPrice);
-        alert("i " + i);
-        if (shipmentPrice > 200) { alert("ENDING i " + i); alert('shippingTotalPrice ' + shippingTotalPrice); break;}
+    //    alert("i " + i);
+        if (shipmentPrice > 200) { 
+            alert("ENDING in the end of cycle i " + i); 
+            alert('shippingTotalPrice ' + shippingTotalPrice); 
+            console.log('Next cycle should begin at ' + i + " and end at " +  (nextCycleNumberOfItems-1));
+            nextCyclei = i;
+            z = 0;
+            nextCycleNumberOfItems = (nextCycleNumberOfItems-1); //nextCycleNumberOfItems-- ?
+            break;}
+     
         orderInfoShipment.ItemName[i+1]=orderInfoSorted.ItemName[i];
-        orderInfoShipment.itemPrice[i+1]=orderInfoSorted.itemPrice[i];     
-        } 
+        orderInfoShipment.itemPrice[i+1]=orderInfoSorted.itemPrice[i]; 
+        
+        // orderInfoShipmentDBcounter внешний счетчик для копирования массива из цикла сортировки по цене в собранный заказ
+        let m = nextCyclei;
+        let n = m + nextCyclei;
+        
+        for (m; m < nextCyclei; m++) {
+        
+        orderInfoShipmentReady.ItemName[z] = orderInfoShipment.ItemName[m];
+        alert(orderInfoShipmentReady.ItemName[z] + " ___ " + orderInfoShipment.ItemName[m]);
+        
+        orderInfoShipmentReady.itemPrice[z] = orderInfoShipment.itemPrice[m];
+        alert(orderInfoShipmentReady.itemPrice[z] + " ___ " + orderInfoShipment.itemPrice[m]);
+        z++;
+        }
+        } alert('You are here and m is: ' + m + 'and z is: ' + z); //создаем здесь цикл для записи массива в готовый заказ и обнуляем цикловой массив
+
+// let n = m+nextCyclei;
+// for (m; m < nextCyclei; m++) {
+// let z = 0;
+// orderInfoShipmentReady.ItemName[m] = orderInfoShipment.ItemName[z];
+// orderInfoShipmentReady.itemPrice[m] = orderInfoShipment.itemPrice[z];
+// z++;
+// }
+ ////////the end of for cycle
 
 alert("Shipping calculation stopped because next step was: " + shipmentPrice);       
 console.log('');
-console.log(orderInfoShipment);
+// console.log('Next cycle should begin at ' + i );
+console.log('');
 
+console.log(orderInfoShipmentReady);
+console.log('');
+    }
 }
     
 ////////////////////////////////////////////////////////////////////////////////////////////////////
